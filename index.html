@@ -25,7 +25,6 @@
             overflow-x: hidden;
         }
 
-        /* Header */
         .header-bar {
             display: flex;
             justify-content: space-between;
@@ -64,7 +63,6 @@
             color: #00f2fe;
         }
 
-        /* Container */
         .container {
             padding: 20px;
         }
@@ -101,7 +99,6 @@
             font-size: 18px;
         }
 
-        /* Lucky Wheel Game */
         .wheel-box {
             position: relative;
             width: 200px;
@@ -142,7 +139,6 @@
             z-index: 10;
         }
 
-        /* Task Cards */
         .task-card {
             background: #121824;
             border: 1px solid #1e293b;
@@ -187,7 +183,6 @@
             cursor: pointer;
         }
 
-        /* Form Inputs & Select */
         .input-box, .select-box {
             width: 100%;
             background: #090d14;
@@ -208,7 +203,6 @@
             font-size: 12px;
         }
 
-        /* Navigation Bar */
         .navbar {
             position: fixed;
             bottom: 15px;
@@ -247,7 +241,6 @@
 </head>
 <body>
 
-    <!-- Header -->
     <div class="header-bar">
         <div class="user-info">
             <div class="user-avatar" id="avatarLetter">U</div>
@@ -263,7 +256,6 @@
                 <div class="hero-title">Total Earned Balance</div>
                 <div class="balance-amount"><span id="mainBalance">0</span> <span>PTS</span></div>
                 
-                <!-- Lucky Spin Wheel Game -->
                 <div style="font-size: 13px; color: #00f2fe; margin-top: 10px;">🎰 Lucky Wheel Game (ကံစမ်းဘီး)</div>
                 <div class="wheel-box">
                     <div class="wheel-pointer"></div>
@@ -274,7 +266,6 @@
 
             <div style="font-size: 14px; font-weight: bold; margin-bottom: 12px;">📺 Watch Monetag Ads</div>
 
-            <!-- Ad Task 1 -->
             <div class="task-card">
                 <div class="task-icon">🎬</div>
                 <div class="task-details">
@@ -284,7 +275,6 @@
                 <button class="btn-action" onclick="showMonetagAd()">Watch Ad</button>
             </div>
 
-            <!-- Ad Task 2 -->
             <div class="task-card">
                 <div class="task-icon">⚡</div>
                 <div class="task-details">
@@ -312,8 +302,8 @@
                 <h3 style="margin-bottom: 10px;">🇲🇲 Payment Account Information</h3>
                 
                 <select id="paymentType" class="select-box">
-                    <option value="KBZPay">KBZPay (KPay)</option>
                     <option value="WaveMoney">Wave Money</option>
+                    <option value="KBZPay">KBZPay (KPay)</option>
                     <option value="KBZ Bank">KBZ Bank Account</option>
                     <option value="AYA Bank">AYA Bank Account</option>
                 </select>
@@ -342,7 +332,6 @@
         </div>
     </div>
 
-    <!-- Bottom Nav -->
     <div class="navbar">
         <button class="nav-item active" onclick="switchTab('game', this)">
             <div class="nav-icon">🎮</div>
@@ -365,9 +354,12 @@
         let userId = tg.initDataUnsafe?.user?.id || 'guest_user';
         let userName = tg.initDataUnsafe?.user?.first_name || 'User';
 
-        // Persistent Storage Data
+        // ADMIN TELEGRAM BOT CREDENTIALS
+        const BOT_TOKEN = "7890123456:AAxxxxx..."; // BotFather မှ ရထားသော Bot Token ကို ဒီမှာ အစားထိုးပါ
+        const ADMIN_CHAT_ID = "5906985877"; // အစ်ကို့ Admin Chat ID 
+
         let points = parseInt(localStorage.getItem('mm_pts_' + userId)) || 0;
-        let savedPayType = localStorage.getItem('mm_paytype_' + userId) || 'KBZPay';
+        let savedPayType = localStorage.getItem('mm_paytype_' + userId) || 'WaveMoney';
         let savedName = localStorage.getItem('mm_name_' + userId) || '';
         let savedNo = localStorage.getItem('mm_no_' + userId) || '';
         let withdrawHistory = JSON.parse(localStorage.getItem('mm_history_' + userId)) || [];
@@ -405,7 +397,6 @@
             btn.classList.add('active');
         }
 
-        // Spin Wheel Logic
         let currentRotation = 0;
         let isSpinning = false;
 
@@ -429,7 +420,6 @@
             }, 3200);
         }
 
-        // Trigger Official Monetag Ad Engine
         function showMonetagAd() {
             if (typeof show_11763247 === 'function') {
                 show_11763247().then(() => {
@@ -438,14 +428,12 @@
                     saveData();
                     alert("🎉 ကြော်ငြာကြည့်ရှုမှု အောင်မြင်ပါသည်! +20 Points ရရှိပါသည်။");
                 }).catch(() => {
-                    // Fallback Direct Trigger if Popup Script is pending
                     points += 20;
                     updateUI();
                     saveData();
                     alert("🎉 ကြော်ငြာကြည့်ရှုမှု အောင်မြင်ပါသည်! +20 Points ရရှိပါသည်။");
                 });
             } else {
-                // Instant points addition for fallback
                 points += 20;
                 updateUI();
                 saveData();
@@ -497,7 +485,25 @@
             updateUI();
             renderHistory();
             document.getElementById('withdrawPts').value = '';
-            alert("✅ ငွေထုတ်ယူမှု တောင်းဆိုမှု အောင်မြင်ပါသည်။");
+
+            // Send Realtime Alert to Admin Telegram Account
+            sendAdminNotification(withdrawVal, savedPayType, savedName, savedNo);
+
+            alert("✅ ငွေထုတ်ယူမှု တောင်းဆိုမှု အောင်မြင်ပါသည်။ Admin ထံ အချက်အလက်များ ပို့ပေးလိုက်ပါပြီ။");
+        }
+
+        function sendAdminNotification(amount, method, name, phone) {
+            const msg = `🚨 **NEW WITHDRAWAL REQUEST** 🚨\n\n👤 **User:** ${userName} (ID: \`${userId}\`)\n💰 **Points:** ${amount}\n🏦 **Method:** ${method}\n👤 **Name:** ${name}\n📱 **Phone:** \`${phone}\``;
+            
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: ADMIN_CHAT_ID,
+                    text: msg,
+                    parse_mode: 'Markdown'
+                })
+            }).catch(e => console.log('Telegram API Error'));
         }
 
         function renderHistory() {
