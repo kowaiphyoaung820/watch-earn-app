@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    <title>Watch & Earn Mini App</title>
+    <title>MiniGame / Watch & Earn</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
     <!-- Monetag SDK Tag -->
     <script src="https://alwingulla.com/88/tag.min.js" data-zone="11763247" async data-cfasync="false"></script>
@@ -17,34 +17,49 @@
             padding: 0;
         }
         body {
-            background-color: #384b56;
+            background-color: #0c0f12;
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 10px;
-            padding-bottom: 80px;
+            padding-bottom: 70px;
         }
 
-        /* Top Bar & Active Search */
-        .top-search-bar {
+        /* Header Bar */
+        .header-bar {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
+            padding: 12px 16px;
+            background: #161b22;
+            border-bottom: 1px solid #2d3748;
         }
-        .user-icon {
-            font-size: 20px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 6px;
-            border-radius: 50%;
-        }
-        .search-box {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
+        .points-badge {
+            background: #1f2937;
             padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #facc15;
+            border: 1px solid #374151;
+        }
+
+        /* Tab Contents */
+        .tab-content {
+            display: none;
+            padding: 16px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Search Bar & Video Elements */
+        .search-box {
+            background: #1a202c;
+            border-radius: 12px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid #2d3748;
+            margin-bottom: 12px;
         }
         .search-box input {
             background: transparent;
@@ -54,276 +69,274 @@
             outline: none;
             font-size: 13px;
         }
-        .search-box input::placeholder {
-            color: #cbd5e1;
-        }
-
-        /* Main Player Card */
         .main-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 18px;
+            background: #161b22;
+            border-radius: 16px;
             padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid #2d3748;
             margin-bottom: 12px;
-        }
-        .video-title {
-            font-size: 13px;
-            color: #ffffff;
-            margin-bottom: 8px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-weight: bold;
         }
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
             background: #000;
         }
         .video-container iframe {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             border: 0;
         }
-
-        /* Earn Progress Bar Section */
-        .progress-box {
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 12px;
-            padding: 10px;
-            margin-top: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .progress-info-text {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #ffd700;
-            font-weight: bold;
-        }
-        .progress-bar-bg {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, #22c55e, #10b981);
-        }
-
-        /* Action Ad Buttons */
-        .action-area {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-        .btn-ad {
-            flex: 1;
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: bold;
+        .video-title {
             font-size: 13px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .btn-pop {
-            flex: 1;
-            background: linear-gradient(135deg, #ec4899, #db2777);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 12px;
             font-weight: bold;
-            font-size: 13px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        /* Categories Bar */
-        .category-scroll {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            margin-bottom: 10px;
-        }
-        .category-scroll::-webkit-scrollbar { display: none; }
-        .tag {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 6px 14px;
-            border-radius: 15px;
-            font-size: 12px;
+            margin-bottom: 8px;
             white-space: nowrap;
-            cursor: pointer;
-            user-select: none;
-            border: 1px solid transparent;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .tag.active {
-            background: #6366f1;
-            font-weight: bold;
-            border: 1px solid rgba(255,255,255,0.4);
-        }
-
-        /* Video List Items */
-        .video-list-item {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 14px;
+        .video-item {
+            background: #161b22;
+            border-radius: 12px;
             padding: 10px;
             display: flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid #2d3748;
             cursor: pointer;
         }
-        .list-thumb {
-            width: 90px;
-            height: 55px;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #000;
-            flex-shrink: 0;
+        .video-item img {
+            width: 80px;
+            height: 50px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        /* Action Buttons */
+        .btn-ad {
+            width: 100%;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Wallet Page Styles */
+        .wallet-container {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-size: cover;
-            background-position: center;
-            position: relative;
+            text-align: center;
+            padding: 40px 20px;
         }
-        .play-icon {
-            font-size: 20px;
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        .wallet-icon-box {
+            font-size: 70px;
+            margin-bottom: 20px;
         }
-        .list-info {
-            flex: 1;
-            overflow: hidden;
-        }
-        .list-title {
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: #ffffff;
-        }
-        .list-sub {
-            font-size: 11px;
-            color: #4ade80;
+        .wallet-title {
+            font-size: 24px;
             font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .wallet-sub {
+            font-size: 13px;
+            color: #9ca3af;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            max-width: 300px;
+        }
+        .btn-connect-ton {
+            width: 100%;
+            max-width: 320px;
+            background: #0088cc;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
         }
 
         /* Bottom Navbar */
         .navbar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
-            height: 60px;
-            background: rgba(44, 58, 67, 0.95);
-            backdrop-filter: blur(10px);
+            height: 65px;
+            background: #161b22;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 999;
+            border-top: 1px solid #2d3748;
+            z-index: 1000;
         }
-        .nav-item {
+        .nav-tab {
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-size: 10px;
-            color: #94a3b8;
+            font-size: 11px;
+            color: #9ca3af;
             background: transparent;
             border: none;
             cursor: pointer;
+            flex: 1;
         }
-        .nav-item.active {
-            color: #6366f1;
+        .nav-tab.active {
+            color: #3b82f6;
         }
         .nav-icon {
-            font-size: 18px;
-            margin-bottom: 2px;
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        /* Custom Ad Modal Overlay (Rewarding Screen like Picture) */
+        .ad-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .ad-modal.active {
+            display: flex;
+        }
+        .timer-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .ad-card-mock {
+            background: #1f2937;
+            border-radius: 16px;
+            padding: 16px;
+            width: 100%;
+            max-width: 320px;
+            text-align: center;
+            border: 1px solid #374151;
+            margin-bottom: 20px;
+        }
+        .btn-continue {
+            width: 100%;
+            max-width: 320px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .btn-continue.ready {
+            opacity: 1;
+            pointer-events: auto;
         }
     </style>
 </head>
 <body>
 
-    <!-- Active Search Bar -->
-    <div class="top-search-bar">
-        <div class="user-icon">👤</div>
+    <!-- Header -->
+    <div class="header-bar">
+        <span style="font-size: 14px; font-weight: bold;">MiniGame</span>
+        <div class="points-badge">💰 <span id="points">0</span> Pts</div>
+    </div>
+
+    <!-- TAB 1: PLAY (Videos) -->
+    <div id="tab-play" class="tab-content active">
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="ကာတွန်းကား ရှာရန်..." oninput="handleSearch()">
-            <span>🔍</span>
         </div>
-        <div style="font-size: 12px; font-weight: bold; background: rgba(0,0,0,0.2); padding: 5px 10px; border-radius: 12px;">💰 <span id="points">0</span> Pts</div>
-    </div>
 
-    <!-- Main Player Card -->
-    <div class="main-card">
-        <div class="video-title" id="currentTitle">Oggy and the Cockroaches - Best Episodes</div>
-        <div class="video-container">
-            <iframe id="mainPlayer" src="https://www.youtube-nocookie.com/embed/P34aY5c7G3M?autoplay=0&rel=0" allowfullscreen></iframe>
-        </div>
-        <div class="progress-box">
-            <div class="progress-info-text">
-                <span>▶ ကြည့်ရှုပြီး ပိုက်ဆံရယူရန်</span>
-                <span>+5 Points / Video</span>
-            </div>
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill"></div>
+        <div class="main-card">
+            <div class="video-title" id="currentTitle">Oggy and the Cockroaches</div>
+            <div class="video-container">
+                <iframe id="mainPlayer" src="https://www.youtube.com/embed/328m31U43_U" allowfullscreen></iframe>
             </div>
         </div>
+
+        <div id="videoContainer"></div>
     </div>
 
-    <!-- Ad Action Buttons -->
-    <div class="action-area">
-        <button type="button" class="btn-ad" onclick="watchInterstitialAd()">🎥 Ads ကြည့်မည် (+10)</button>
-        <button type="button" class="btn-pop" onclick="watchPopupAd()">🚀 Quick Ads (+5)</button>
+    <!-- TAB 2: EARN (Ads Task) -->
+    <div id="tab-earn" class="tab-content">
+        <h3 style="margin-bottom: 15px;">ကြော်ငြာကြည့်၍ Point စုရန်</h3>
+        <button class="btn-ad" onclick="startAdTask()">🎁 Watch Rewarded Ads (+10 Pts)</button>
+        <button class="btn-ad" style="background: linear-gradient(135deg, #ec4899, #db2777);" onclick="startAdTask()">🚀 Direct Monetag Ads (+5 Pts)</button>
     </div>
 
-    <!-- Clickable Category Tags -->
-    <div class="category-scroll">
-        <div class="tag active" onclick="filterCategory('all', this)">အားလုံး</div>
-        <div class="tag" onclick="filterCategory('oggy', this)">Oggy</div>
-        <div class="tag" onclick="filterCategory('larva', this)">Larva</div>
-        <div class="tag" onclick="filterCategory('tomjerry', this)">Tom & Jerry</div>
-        <div class="tag" onclick="filterCategory('entertainment', this)">ဖျော်ဖြေရေး</div>
+    <!-- TAB 3: FRIENDS -->
+    <div id="tab-friends" class="tab-content" style="text-align: center; padding-top: 50px;">
+        <h2>👥 Invite Friends</h2>
+        <p style="color: #9ca3af; margin-top: 10px;">မိတ်ဆွေများကို ဖိတ်ခေါ်ပြီး Points များ ထပ်မံရယူပါ။</p>
     </div>
 
-    <!-- Dynamic Video List Items -->
-    <div id="videoContainer"></div>
+    <!-- TAB 4: WALLET -->
+    <div id="tab-wallet" class="tab-content">
+        <div class="wallet-container">
+            <div class="wallet-icon-box">👛💎</div>
+            <div class="wallet-title">Connect your TON wallet</div>
+            <div class="wallet-sub">Connect your crypto wallet. If you don't have one, create one in your Telegram account</div>
+            
+            <button class="btn-connect-ton" onclick="connectTonWallet()">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                    <span>👛</span>
+                    <span>Connect your TON wallet</span>
+                </span>
+                <span>›</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Rewarded Ad Modal Screen (Image Exact Match) -->
+    <div id="adModal" class="ad-modal">
+        <div class="timer-badge">⏳ <span id="adTimer">00:05</span></div>
+        <div class="ad-card-mock">
+            <h4 style="color: #facc15; margin-bottom: 8px;">⚡ 200 FREE SPINS</h4>
+            <p style="font-size: 13px; color: #d1d5db;">ကြော်ငြာကို စက္ကန့်ပြည့်အောင် ကြည့်ရှုပေးပါခင်ဗျာ။</p>
+            <div style="font-size: 10px; color: #9ca3af; margin-top: 15px;">ads by Monetag</div>
+        </div>
+        <button id="continueBtn" class="btn-continue" onclick="finishAdTask()">Continue</button>
+    </div>
 
     <!-- Bottom Navigation -->
     <div class="navbar">
-        <button type="button" class="nav-item active">
-            <div class="nav-icon">📺</div>
-            <span>ဗီဒီယို</span>
+        <button class="nav-tab active" onclick="switchTab('play', this)">
+            <div class="nav-icon">🎮</div>
+            <span>Play</span>
         </button>
-        <button type="button" class="nav-item" onclick="watchInterstitialAd()">
-            <div class="nav-icon">📋</div>
-            <span>တာဝန်များ</span>
+        <button class="nav-tab" onclick="switchTab('earn', this)">
+            <div class="nav-icon">🪙</div>
+            <span>Earn</span>
         </button>
-        <button type="button" class="nav-item" onclick="watchPopupAd()">
-            <div class="nav-icon">🏆</div>
-            <span>ပွဲစဉ်</span>
+        <button class="nav-tab" onclick="switchTab('friends', this)">
+            <div class="nav-icon">👥</div>
+            <span>Friends</span>
         </button>
-        <button type="button" class="nav-item" onclick="alert('ငွေထုတ်စနစ်ကို မကြာမီ ဖွင့်လှစ်ပေးပါမည်။');">
-            <div class="nav-icon">💸</div>
-            <span>ငွေထုတ်</span>
+        <button class="nav-tab" onclick="switchTab('wallet', this)">
+            <div class="nav-icon">👛</div>
+            <span>Wallet</span>
         </button>
     </div>
 
@@ -332,122 +345,98 @@
         tg.expand();
 
         let points = 0;
-        let currentCategory = 'all';
+        let countdownTimer;
 
-        // Updated Working Cartoon Videos List
-        const videoData = [
-            // Oggy & the Cockroaches
-            { id: "P34aY5c7G3M", title: "Oggy and the Cockroaches - Funny Episodes", category: "oggy", reward: "+5 Points ကြည့်ရှုခ" },
-            { id: "M0X8fP_P2Y4", title: "Oggy and the Cockroaches - Jack's Vacation", category: "oggy", reward: "+5 Points ကြည့်ရှုခ" },
-            { id: "aC_G8s_G2S4", title: "Oggy and the Cockroaches - Best Chase", category: "oggy", reward: "+5 Points ကြည့်ရှုခ" },
-            
-            // Larva
-            { id: "8-63S2C6s68", title: "Larva Funny Cartoon Compilation", category: "larva", reward: "+5 Points ကြည့်ရှုခ" },
-            { id: "3U8y8E1-F_M", title: "Larva Season 3 Best Funny Moments", category: "larva", reward: "+5 Points ကြည့်ရှုခ" },
-            { id: "P60f2yB3I_o", title: "Larva Island Full Clips", category: "larva", reward: "+5 Points ကြည့်ရှုခ" },
-            
-            // Tom & Jerry
-            { id: "t06RUxPew_c", title: "Tom & Jerry Classic Compilation", category: "tomjerry", reward: "+5 Points ကြည့်ရှုခ" },
-            { id: "kP9TfCWaQT4", title: "Tom & Jerry Best Chase Scenes", category: "tomjerry", reward: "+5 Points ကြည့်ရှုခ" },
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://kowaiphyoaung820.github.io/watch-earn-app/tonconnect-manifest.json',
+        });
 
-            // Entertainment / ဖျော်ဖြေရေး
-            { id: "328m31U43_U", title: "Mr Bean Animated Series Special", category: "entertainment", reward: "+5 Points ကြည့်ရှုခ" },
-            { id: "KYniUCGPGLs", title: "Masha and the Bear Top Episodes", category: "entertainment", reward: "+5 Points ကြည့်ရှုခ" }
-        ];
-
-        function addPoints(amount) {
-            points += amount;
-            document.getElementById('points').innerText = points;
+        async function connectTonWallet() {
+            try {
+                await tonConnectUI.openModal();
+            } catch (e) {
+                alert("TON Wallet ချိတ်ဆက်မှု အဆင်မပြေပါ သို့မဟုတ် မဖွင့်နိုင်ပါ။");
+            }
         }
 
-        // Render List based on Category and Search Query
+        function switchTab(tabName, el) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabName).classList.add('active');
+            el.classList.add('active');
+        }
+
+        // Ad Rewarded Flow like Image
+        function startAdTask() {
+            // Trigger Monetag Ad SDK First
+            if (typeof show_11763247 === 'function') {
+                show_11763247().catch(() => {});
+            }
+
+            const modal = document.getElementById('adModal');
+            const timerEl = document.getElementById('adTimer');
+            const btn = document.getElementById('continueBtn');
+            
+            modal.classList.add('active');
+            btn.classList.remove('ready');
+            
+            let timeLeft = 5;
+            timerEl.innerText = `00:0${timeLeft}`;
+
+            countdownTimer = setInterval(() => {
+                timeLeft--;
+                timerEl.innerText = `00:0${timeLeft}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdownTimer);
+                    btn.classList.add('ready');
+                }
+            }, 1000);
+        }
+
+        function finishAdTask() {
+            document.getElementById('adModal').classList.remove('active');
+            points += 10;
+            document.getElementById('points').innerText = points;
+            alert("ကြော်ငြာကြည့်ရှုခြင်း အောင်မြင်ပါသည်။ +10 Points ရရှိပါသည်။");
+        }
+
+        const videoData = [
+            { id: "328m31U43_U", title: "Mr Bean Animated Series - Classic Clips" },
+            { id: "M0X8fP_P2Y4", title: "Oggy and the Cockroaches - Jack's Resort" },
+            { id: "8-63S2C6s68", title: "Larva Season - Funny Moments" },
+            { id: "t06RUxPew_c", title: "Tom & Jerry - Classic Special" }
+        ];
+
         function renderVideos(items) {
             const container = document.getElementById('videoContainer');
             container.innerHTML = '';
-
-            if (items.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding: 20px; font-size: 12px; color: #cbd5e1;">ရှာဖွေမှု မတွေ့ရှိပါ။</div>`;
-                return;
-            }
-
             items.forEach(item => {
                 const thumbUrl = `https://img.youtube.com/vi/${item.id}/hqdefault.jpg`;
-                const embedUrl = `https://www.youtube-nocookie.com/embed/${item.id}?autoplay=1&rel=0`;
-
-                const html = `
-                    <div class="video-list-item" onclick="playVideo('${embedUrl}', '${item.title}')">
-                        <div class="list-thumb" style="background-image: url('${thumbUrl}');">
-                            <span class="play-icon">▶</span>
-                        </div>
-                        <div class="list-info">
-                            <div class="list-title">${item.title}</div>
-                            <div class="list-sub">🎁 ${item.reward}</div>
-                        </div>
+                container.innerHTML += `
+                    <div class="video-item" onclick="playVideo('${item.id}', '${item.title}')">
+                        <img src="${thumbUrl}">
+                        <div class="video-item-title">${item.title}</div>
                     </div>
                 `;
-                container.innerHTML += html;
             });
         }
 
-        // Search Bar Functionality
-        function handleSearch() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            
-            const filtered = videoData.filter(item => {
-                const matchCategory = currentCategory === 'all' || item.category === currentCategory;
-                const matchSearch = item.title.toLowerCase().includes(query) || item.category.toLowerCase().includes(query);
-                return matchCategory && matchSearch;
-            });
+        function playVideo(id, title) {
+            document.getElementById('mainPlayer').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+            document.getElementById('currentTitle').innerText = title;
+            points += 5;
+            document.getElementById('points').innerText = points;
+        }
 
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = videoData.filter(i => i.title.toLowerCase().includes(query));
             renderVideos(filtered);
         }
 
-        // Change Category Tag
-        function filterCategory(category, element) {
-            currentCategory = category;
-            document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
-            element.classList.add('active');
-            handleSearch();
-        }
-
-        function playVideo(url, title) {
-            document.getElementById('mainPlayer').src = url;
-            document.getElementById('currentTitle').innerText = title;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            addPoints(5);
-        }
-
-        // Initial Load
         renderVideos(videoData);
-
-        // Monetag Ads
-        function watchInterstitialAd() {
-            if (typeof show_11763247 === 'function') {
-                show_11763247().then(() => {
-                    addPoints(10);
-                    alert("ကြော်ငြာကြည့်ရှုခြင်း အောင်မြင်ပါသည်။ +10 Points ရရှိပါသည်။");
-                }).catch(() => {
-                    alert("ကြော်ငြာ မတက်သေးပါ၊ ခဏကြာမှ ပြန်ကြည့်ပေးပါခင်ဗျာ။");
-                });
-            } else {
-                addPoints(10);
-                alert("ကြော်ငြာကြည့်ရှုခြင်း အောင်မြင်ပါသည်။ +10 Points ရရှိပါသည်။");
-            }
-        }
-
-        function watchPopupAd() {
-            if (typeof show_11763247 === 'function') {
-                show_11763247('pop').then(() => {
-                    addPoints(5);
-                    alert("Popup ကြော်ငြာ ကြည့်ရှုခြင်း အောင်မြင်ပါသည်။ +5 Points ရရှိပါသည်။");
-                }).catch(() => {
-                    alert("ကြော်ငြာ မတက်သေးပါ၊ ခဏကြာမှ ပြန်ကြည့်ပေးပါခင်ဗျာ။");
-                });
-            } else {
-                addPoints(5);
-                alert("Popup ကြော်ငြာ ကြည့်ရှုခြင်း အောင်မြင်ပါသည်။ +5 Points ရရှိပါသည်။");
-            }
-        }
     </script>
 </body>
 </html>
