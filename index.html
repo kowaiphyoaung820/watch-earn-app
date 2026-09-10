@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VideoAds - Earn Points</title>
+    <title>VideoAds Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <!-- Monetag Ad Tag -->
+    <!-- Monetag Ad Script -->
     <script src="https://alwingulla.com/88/tag.min.js" data-zone="11763247" async data-cfasync="false"></script>
 
     <style>
@@ -15,16 +15,16 @@
             margin: 0;
             padding: 0;
             user-select: none;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
             background-color: #0b0e14;
             color: #ffffff;
-            padding-bottom: 80px;
+            padding-bottom: 85px;
         }
 
-        /* Top Header */
+        /* Header */
         .header-bar {
             display: flex;
             justify-content: space-between;
@@ -33,31 +33,26 @@
             background: #121824;
             border-bottom: 1px solid #1e293b;
         }
-
         .user-info {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
         .user-avatar {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: linear-gradient(135deg, #00f2fe, #4facfe);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 16px;
             color: #000;
         }
-
         .user-name {
             font-size: 14px;
             font-weight: 600;
         }
-
         .badge-pts {
             background: #1e293b;
             border: 1px solid #00f2fe;
@@ -68,15 +63,13 @@
             color: #00f2fe;
         }
 
-        /* Blum Style Cards & Layout */
+        /* Layout & Tabs */
         .container {
             padding: 20px;
         }
-
         .tab-content {
             display: none;
         }
-
         .tab-content.active {
             display: block;
         }
@@ -85,105 +78,116 @@
             background: linear-gradient(180deg, #161e2e 0%, #0d131f 100%);
             border: 1px solid #1e293b;
             border-radius: 20px;
-            padding: 24px;
+            padding: 20px;
             text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            margin-bottom: 16px;
         }
-
         .hero-title {
-            font-size: 13px;
+            font-size: 12px;
             color: #94a3b8;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
-
         .balance-amount {
-            font-size: 38px;
+            font-size: 36px;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
-
         .balance-amount span {
             color: #00f2fe;
-            font-size: 20px;
+            font-size: 18px;
+        }
+
+        /* Coin Tap Game Styles */
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .coin-btn {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00f2fe 0%, #0284c7 100%);
+            border: 6px solid #38bdf8;
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: transform 0.08s ease;
+        }
+        .coin-btn:active {
+            transform: scale(0.92);
+        }
+        .energy-bar-box {
+            width: 100%;
+            max-width: 260px;
+            background: #1e2838;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+            border: 1px solid #334155;
+        }
+        .energy-fill {
+            width: 100%;
+            height: 100%;
+            background: #00f2fe;
+            transition: width 0.2s ease;
         }
 
         /* Task Cards */
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
         .task-card {
             background: #121824;
             border: 1px solid #1e293b;
             border-radius: 16px;
-            padding: 16px;
+            padding: 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 12px;
-            transition: all 0.2s;
         }
-
-        .task-card:active {
-            transform: scale(0.98);
-        }
-
         .task-icon {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 12px;
             background: #1e293b;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 20px;
         }
-
         .task-details {
             flex: 1;
             margin-left: 12px;
         }
-
         .task-name {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 4px;
         }
-
         .task-reward {
-            font-size: 12px;
+            font-size: 11px;
             color: #00f2fe;
             font-weight: bold;
         }
-
         .btn-action {
             background: linear-gradient(135deg, #00f2fe, #4facfe);
             color: #000;
             border: none;
             padding: 10px 16px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             cursor: pointer;
         }
 
-        .btn-action:disabled {
-            background: #334155;
-            color: #94a3b8;
-            cursor: not-allowed;
-        }
-
-        /* Form Inputs for Wallet */
+        /* Inputs & Tables */
         .input-box {
             width: 100%;
             background: #090d14;
@@ -191,16 +195,20 @@
             border-radius: 12px;
             padding: 14px;
             color: #fff;
-            font-size: 14px;
+            font-size: 13px;
             margin-bottom: 12px;
             outline: none;
         }
-
-        .input-box:focus {
-            border-color: #00f2fe;
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #1e293b;
+            font-size: 12px;
         }
 
-        /* Bottom Nav (Blum Floating Style) */
+        /* Navigation Bar */
         .navbar {
             position: fixed;
             bottom: 15px;
@@ -215,9 +223,7 @@
             justify-content: space-around;
             align-items: center;
             z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
-
         .nav-item {
             background: transparent;
             border: none;
@@ -231,45 +237,17 @@
             cursor: pointer;
             width: 25%;
         }
-
         .nav-item.active {
             color: #00f2fe;
         }
-
         .nav-icon {
             font-size: 18px;
-        }
-
-        /* Ad Waiting Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-box {
-            background: #121824;
-            border: 1px solid #1e293b;
-            border-radius: 24px;
-            padding: 24px;
-            width: 100%;
-            max-width: 320px;
-            text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Header -->
+    <!-- Header -->
     <div class="header-bar">
         <div class="user-info">
             <div class="user-avatar" id="avatarLetter">U</div>
@@ -279,46 +257,42 @@
     </div>
 
     <div class="container">
-        <!-- TAB 1: TASKS / EARN (Main Blum Style) -->
-        <div id="tab-earn" class="tab-content active">
+        <!-- TAB 1: GAME & TASKS -->
+        <div id="tab-game" class="tab-content active">
             <div class="hero-card">
                 <div class="hero-title">Total Earned Balance</div>
                 <div class="balance-amount"><span id="mainBalance">0</span> <span>PTS</span></div>
-                <button class="btn-action" style="width: 100%; padding: 14px; border-radius: 14px; font-size: 15px;" onclick="switchTab('wallet', document.querySelectorAll('.nav-item')[3])">
-                    🚀 Withdraw Points
-                </button>
+                
+                <!-- Coin Tap Game Section -->
+                <div class="game-area">
+                    <div class="coin-btn" onclick="tapCoin(event)">🪙</div>
+                    <div style="font-size: 12px; color: #94a3b8;">⚡ Energy: <span id="energyText">100/100</span></div>
+                    <div class="energy-bar-box">
+                        <div class="energy-fill" id="energyBar"></div>
+                    </div>
+                </div>
             </div>
 
-            <div class="section-title">📺 Watch Ads & Earn</div>
+            <div style="font-size: 14px; font-weight: bold; margin-bottom: 12px;">📺 Watch Real Ads</div>
 
-            <!-- Task 1 -->
+            <!-- Ad Task 1 -->
             <div class="task-card">
                 <div class="task-icon">🎬</div>
                 <div class="task-details">
-                    <div class="task-name">Watch Video Ad</div>
+                    <div class="task-name">Open Monetag Ad Link</div>
                     <div class="task-reward">+20 Points</div>
                 </div>
-                <button class="btn-action" onclick="startVideoAdTask()">Watch</button>
+                <button class="btn-action" onclick="openRealAd()">Open Ad</button>
             </div>
 
-            <!-- Task 2 -->
+            <!-- Ad Task 2 -->
             <div class="task-card">
                 <div class="task-icon">⚡</div>
                 <div class="task-details">
-                    <div class="task-name">Fast Direct Ad</div>
+                    <div class="task-name">Fast Ad Sponsor</div>
                     <div class="task-reward">+15 Points</div>
                 </div>
-                <button class="btn-action" onclick="triggerDirectAd()">Open</button>
-            </div>
-
-            <!-- Task 3 -->
-            <div class="task-card">
-                <div class="task-icon">🎁</div>
-                <div class="task-details">
-                    <div class="task-name">Daily Bonus Ad</div>
-                    <div class="task-reward">+30 Points</div>
-                </div>
-                <button class="btn-action" onclick="startVideoAdTask()">Claim</button>
+                <button class="btn-action" onclick="openRealAd()">Open Ad</button>
             </div>
         </div>
 
@@ -326,8 +300,8 @@
         <div id="tab-friends" class="tab-content">
             <div class="hero-card">
                 <h2>👥 Invite Friends</h2>
-                <p style="color: #94a3b8; font-size: 13px; margin: 10px 0 20px;">
-                    သူငယ်ချင်းများကို ဖိတ်ခေါ်ပြီး သူတို့ ကြည့်သည့် ကြော်ငြာမှ ၁၀% Commission ထပ်မံရယူပါ။
+                <p style="color: #94a3b8; font-size: 12px; margin: 10px 0 20px;">
+                    သူငယ်ချင်းများကို ဖိတ်ခေါ်ပြီး Point ၁၀% ထပ်မံရယူပါ။
                 </p>
                 <button class="btn-action" style="width: 100%; padding: 12px;" onclick="shareInviteLink()">Copy Invite Link</button>
             </div>
@@ -336,41 +310,39 @@
         <!-- TAB 3: WALLET & WITHDRAW -->
         <div id="tab-wallet" class="tab-content">
             <div class="hero-card" style="text-align: left;">
-                <h3 style="margin-bottom: 10px;">👛 TON Wallet Address</h3>
+                <h3 style="margin-bottom: 8px;">👛 TON Wallet Address</h3>
                 <input type="text" id="walletInput" class="input-box" placeholder="UQ... သို့မဟုတ် EQ... (TON Address)">
                 <button class="btn-action" style="width: 100%;" onclick="saveWallet()">Save Wallet</button>
             </div>
 
             <div class="hero-card" style="text-align: left;">
                 <h3 style="margin-bottom: 8px;">💸 Withdraw Request</h3>
-                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;">အနည်းဆုံး 1,000 Points ရှိပါက ထုတ်ယူနိုင်ပါသည်</p>
+                <p style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">အနည်းဆုံး 1,000 Points ရှိပါက ထုတ်ယူနိုင်ပါသည်</p>
                 <input type="number" id="withdrawPts" class="input-box" placeholder="ထုတ်ယူမည့် Point ပမာဏ">
                 <button class="btn-action" style="width: 100%; background: linear-gradient(135deg, #10b981, #059669); color: white;" onclick="requestWithdraw()">
                     Withdraw Now
                 </button>
             </div>
-        </div>
-    </div>
 
-    <!-- Ad Countdown Modal -->
-    <div id="adModal" class="modal">
-        <div class="modal-box">
-            <h3 style="color: #00f2fe; margin-bottom: 10px;">📺 Watching Video Ad</h3>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">ကြော်ငြာကြည့်ရှုနေပါသည်။ ခဏစောင့်ပေးပါ...</p>
-            <div style="font-size: 28px; font-weight: bold; margin-bottom: 15px; color: #fff;" id="timerDisplay">00:05</div>
-            <button id="claimAdBtn" class="btn-action" style="width: 100%; opacity: 0.5; pointer-events: none;" onclick="completeAdTask()">Claim Points</button>
+            <!-- Withdrawal History Section -->
+            <div class="hero-card" style="text-align: left;">
+                <h3 style="margin-bottom: 10px;">📜 ငွေထုတ်ယူမှု မှတ်တမ်း</h3>
+                <div id="historyContainer">
+                    <div style="font-size: 12px; color: #94a3b8; text-align: center;">ငွေထုတ်ယူမှု မှတ်တမ်း မရှိသေးပါ။</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Bottom Nav -->
     <div class="navbar">
-        <button class="nav-item active" onclick="switchTab('earn', this)">
-            <div class="nav-icon">⚡</div>
-            <span>Tasks</span>
+        <button class="nav-item active" onclick="switchTab('game', this)">
+            <div class="nav-icon">🎮</div>
+            <span>Game & Ads</span>
         </button>
         <button class="nav-item" onclick="switchTab('friends', this)">
             <div class="nav-icon">👥</div>
-            <span>Frens</span>
+            <span>Friends</span>
         </button>
         <button class="nav-item" onclick="switchTab('wallet', this)">
             <div class="nav-icon">👛</div>
@@ -386,11 +358,10 @@
         let userName = tg.initDataUnsafe?.user?.first_name || 'User';
 
         // Load Persistent Data
-        let points = parseInt(localStorage.getItem('blum_pts_' + userId)) || 0;
-        let savedWallet = localStorage.getItem('blum_wallet_' + userId) || '';
-
-        let currentAdReward = 0;
-        let adInterval;
+        let points = parseInt(localStorage.getItem('vea_pts_' + userId)) || 0;
+        let energy = parseInt(localStorage.getItem('vea_energy_' + userId)) || 100;
+        let savedWallet = localStorage.getItem('vea_wallet_' + userId) || '';
+        let withdrawHistory = JSON.parse(localStorage.getItem('vea_history_' + userId)) || [];
 
         window.onload = function() {
             document.getElementById('userNameDisplay').innerText = userName;
@@ -399,16 +370,21 @@
                 document.getElementById('walletInput').value = savedWallet;
             }
             updateUI();
+            renderHistory();
         };
 
         function saveData() {
-            localStorage.setItem('blum_pts_' + userId, points);
-            localStorage.setItem('blum_wallet_' + userId, savedWallet);
+            localStorage.setItem('vea_pts_' + userId, points);
+            localStorage.setItem('vea_energy_' + userId, energy);
+            localStorage.setItem('vea_wallet_' + userId, savedWallet);
+            localStorage.setItem('vea_history_' + userId, JSON.stringify(withdrawHistory));
         }
 
         function updateUI() {
             document.getElementById('topPoints').innerText = points;
             document.getElementById('mainBalance').innerText = points;
+            document.getElementById('energyText').innerText = `${energy}/100`;
+            document.getElementById('energyBar').style.width = `${energy}%`;
         }
 
         function switchTab(tabId, btn) {
@@ -419,52 +395,35 @@
             btn.classList.add('active');
         }
 
-        // Ads Triggering
-        function startVideoAdTask() {
-            currentAdReward = 20;
-            if (typeof show_11763247 === 'function') {
-                show_11763247().catch(() => {});
+        // Tap Game
+        function tapCoin(event) {
+            if (energy > 0) {
+                points += 1;
+                energy -= 1;
+                updateUI();
+                saveData();
+            } else {
+                alert("Energy ကုန်သွားပါပြီ။ ခဏစောင့်ပေးပါ။");
             }
-
-            const modal = document.getElementById('adModal');
-            const timerEl = document.getElementById('timerDisplay');
-            const claimBtn = document.getElementById('claimAdBtn');
-
-            modal.classList.add('active');
-            claimBtn.style.opacity = '0.5';
-            claimBtn.style.pointerEvents = 'none';
-
-            let count = 5;
-            timerEl.innerText = `00:0${count}`;
-
-            adInterval = setInterval(() => {
-                count--;
-                timerEl.innerText = `00:0${count}`;
-
-                if (count <= 0) {
-                    clearInterval(adInterval);
-                    claimBtn.style.opacity = '1';
-                    claimBtn.style.pointerEvents = 'auto';
-                }
-            }, 1000);
         }
 
-        function completeAdTask() {
-            document.getElementById('adModal').classList.remove('active');
-            points += currentAdReward;
-            saveData();
-            updateUI();
-            alert(`🎉 အောင်မြင်ပါသည်။ +${currentAdReward} Points ရရှိပါသည်!`);
-        }
-
-        function triggerDirectAd() {
-            if (typeof show_11763247 === 'function') {
-                show_11763247().catch(() => {});
+        // Auto recover energy
+        setInterval(() => {
+            if (energy < 100) {
+                energy += 1;
+                updateUI();
+                saveData();
             }
-            points += 15;
-            saveData();
+        }, 1500);
+
+        // Real Monetag Direct Ad Triggering
+        function openRealAd() {
+            // Open Direct Ad Link in new tab to guarantee real ad display
+            window.open('https://alwingulla.com/88/tag.min.js', '_blank');
+            points += 20;
             updateUI();
-            alert("🎉 +15 Points ရရှိပါသည်!");
+            saveData();
+            alert("🎉 ကြော်ငြာကြည့်ရှုမှု အောင်မြင်ပါသည်! +20 Points ရရှိပါသည်။");
         }
 
         function saveWallet() {
@@ -475,7 +434,7 @@
             }
             savedWallet = val;
             saveData();
-            alert("TON Wallet သိမ်းဆည်းပြီးပါပြီခင်ဗျာ။");
+            alert("✅ TON Wallet Address ကို အပြီးပိုင် မှတ်သားလိုက်ပါပြီ။");
         }
 
         function requestWithdraw() {
@@ -489,14 +448,46 @@
                 return;
             }
             if (!savedWallet) {
-                alert("ကျေးဇူးပြု၍ Wallet Address မဖြစ်မနေ အရင်သိမ်းဆည်းပေးပါ။");
+                alert("ကျေးဇူးပြု၍ Wallet Address ကို အရင် Save Wallet နှိပ်၍ သိမ်းဆည်းပါ။");
                 return;
             }
 
             points -= withdrawVal;
+            const dateStr = new Date().toLocaleDateString();
+            
+            withdrawHistory.unshift({
+                date: dateStr,
+                pts: withdrawVal,
+                wallet: savedWallet,
+                status: 'Pending'
+            });
+
             saveData();
             updateUI();
-            alert("ငွေထုတ်ယူမှု တောင်းဆိုပြီးပါပြီခင်ဗျာ။");
+            renderHistory();
+            document.getElementById('withdrawPts').value = '';
+            alert("✅ ငွေထုတ်ယူမှု တောင်းဆိုမှု အောင်မြင်ပါသည်။");
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('historyContainer');
+            if (withdrawHistory.length === 0) {
+                container.innerHTML = `<div style="font-size: 12px; color: #94a3b8; text-align: center;">ငွေထုတ်ယူမှု မှတ်တမ်း မရှိသေးပါ။</div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            withdrawHistory.forEach(item => {
+                container.innerHTML += `
+                    <div class="history-item">
+                        <div>
+                            <div style="font-weight: bold; color: #00f2fe;">${item.pts} Pts</div>
+                            <div style="color: #94a3b8; font-size: 10px;">${item.date} | ${item.wallet.substring(0, 8)}...</div>
+                        </div>
+                        <div style="color: #facc15; font-weight: bold;">⏳ ${item.status}</div>
+                    </div>
+                `;
+            });
         }
 
         function shareInviteLink() {
