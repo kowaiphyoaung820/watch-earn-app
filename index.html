@@ -182,28 +182,32 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 14px;
-            padding: 8px;
+            padding: 10px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 8px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             cursor: pointer;
         }
         .list-thumb {
-            width: 100px;
-            height: 60px;
+            width: 90px;
+            height: 55px;
             border-radius: 8px;
             overflow: hidden;
-            position: relative;
             background: #000;
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            position: relative;
         }
-        .list-thumb iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-            pointer-events: none;
+        .play-icon {
+            font-size: 20px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
         .list-info {
             flex: 1;
@@ -219,7 +223,7 @@
             color: #ffffff;
         }
         .list-sub {
-            font-size: 10px;
+            font-size: 11px;
             color: #4ade80;
             font-weight: bold;
         }
@@ -258,7 +262,7 @@
 </head>
 <body>
 
-    <!-- Working Live Search Bar -->
+    <!-- Active Search Bar -->
     <div class="top-search-bar">
         <div class="user-icon">👤</div>
         <div class="search-box">
@@ -272,7 +276,7 @@
     <div class="main-card">
         <div class="video-title" id="currentTitle">Oggy and the Cockroaches - Best Episodes</div>
         <div class="video-container">
-            <iframe id="mainPlayer" src="https://www.youtube-nocookie.com/embed/S3wS71jA498?rel=0&enablejsapi=1" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe id="mainPlayer" src="https://www.youtube-nocookie.com/embed/P34aY5c7G3M?autoplay=0&rel=0" allowfullscreen></iframe>
         </div>
         <div class="progress-box">
             <div class="progress-info-text">
@@ -330,30 +334,25 @@
         let points = 0;
         let currentCategory = 'all';
 
-        // Expanded Cartoon Videos List
+        // Updated Working Cartoon Videos List
         const videoData = [
             // Oggy & the Cockroaches
-            { title: "Oggy and the Cockroaches - Best Episodes", category: "oggy", url: "https://www.youtube-nocookie.com/embed/S3wS71jA498?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
-            { title: "Oggy Season Special Compilation", category: "oggy", url: "https://www.youtube-nocookie.com/embed/rQ_7m0T9w8M?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
-            { title: "Oggy and the Cockroaches - Funny Chase", category: "oggy", url: "https://www.youtube-nocookie.com/embed/M23D_04sWdY?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
-            { title: "Oggy & Jack Non-Stop Cartoon", category: "oggy", url: "https://www.youtube-nocookie.com/embed/d2S4N88p7zI?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
+            { id: "P34aY5c7G3M", title: "Oggy and the Cockroaches - Funny Episodes", category: "oggy", reward: "+5 Points ကြည့်ရှုခ" },
+            { id: "M0X8fP_P2Y4", title: "Oggy and the Cockroaches - Jack's Vacation", category: "oggy", reward: "+5 Points ကြည့်ရှုခ" },
+            { id: "aC_G8s_G2S4", title: "Oggy and the Cockroaches - Best Chase", category: "oggy", reward: "+5 Points ကြည့်ရှုခ" },
             
             // Larva
-            { title: "Larva Funny Cartoon Compilation", category: "larva", url: "https://www.youtube-nocookie.com/embed/8-63S2C6s68?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
-            { title: "Larva Season 3 Best Funny Moments", category: "larva", url: "https://www.youtube-nocookie.com/embed/3U8y8E1-F_M?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
-            { title: "Larva Island Full Funny Clips", category: "larva", url: "https://www.youtube-nocookie.com/embed/P60f2yB3I_o?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
-            { title: "Larva Red and Yellow Adventures", category: "larva", url: "https://www.youtube-nocookie.com/embed/5w3P3S6K2Lg?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
+            { id: "8-63S2C6s68", title: "Larva Funny Cartoon Compilation", category: "larva", reward: "+5 Points ကြည့်ရှုခ" },
+            { id: "3U8y8E1-F_M", title: "Larva Season 3 Best Funny Moments", category: "larva", reward: "+5 Points ကြည့်ရှုခ" },
+            { id: "P60f2yB3I_o", title: "Larva Island Full Clips", category: "larva", reward: "+5 Points ကြည့်ရှုခ" },
             
             // Tom & Jerry
-            { title: "Tom & Jerry Classic Funny Compilation", category: "tomjerry", url: "https://www.youtube-nocookie.com/embed/t06RUxPew_c?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
-            { title: "Tom & Jerry Best Chase Scenes", category: "tomjerry", url: "https://www.youtube-nocookie.com/embed/kP9TfCWaQT4?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
-            { title: "Tom and Jerry Full Episodes Special", category: "tomjerry", url: "https://www.youtube-nocookie.com/embed/8Kq8Wf5dF20?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
+            { id: "t06RUxPew_c", title: "Tom & Jerry Classic Compilation", category: "tomjerry", reward: "+5 Points ကြည့်ရှုခ" },
+            { id: "kP9TfCWaQT4", title: "Tom & Jerry Best Chase Scenes", category: "tomjerry", reward: "+5 Points ကြည့်ရှုခ" },
 
             // Entertainment / ဖျော်ဖြေရေး
-            { title: "Mr Bean Animated Series Special", category: "entertainment", url: "https://www.youtube-nocookie.com/embed/328m31U43_U?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
-            { title: "Masha and the Bear Top Episodes", category: "entertainment", url: "https://www.youtube-nocookie.com/embed/KYniUCGPGLs?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
-            { title: "Pink Panther Animated Cartoons", category: "entertainment", url: "https://www.youtube-nocookie.com/embed/H24C9xK4p_w?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" },
-            { title: "Shaun the Sheep Full Funny Short", category: "entertainment", url: "https://www.youtube-nocookie.com/embed/9wE1R_C2b8w?rel=0&enablejsapi=1", reward: "+5 Points ကြည့်ရှုခ" }
+            { id: "328m31U43_U", title: "Mr Bean Animated Series Special", category: "entertainment", reward: "+5 Points ကြည့်ရှုခ" },
+            { id: "KYniUCGPGLs", title: "Masha and the Bear Top Episodes", category: "entertainment", reward: "+5 Points ကြည့်ရှုခ" }
         ];
 
         function addPoints(amount) {
@@ -372,10 +371,13 @@
             }
 
             items.forEach(item => {
+                const thumbUrl = `https://img.youtube.com/vi/${item.id}/hqdefault.jpg`;
+                const embedUrl = `https://www.youtube-nocookie.com/embed/${item.id}?autoplay=1&rel=0`;
+
                 const html = `
-                    <div class="video-list-item" onclick="playVideo('${item.url}', '${item.title}')">
-                        <div class="list-thumb">
-                            <iframe src="${item.url}" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    <div class="video-list-item" onclick="playVideo('${embedUrl}', '${item.title}')">
+                        <div class="list-thumb" style="background-image: url('${thumbUrl}');">
+                            <span class="play-icon">▶</span>
                         </div>
                         <div class="list-info">
                             <div class="list-title">${item.title}</div>
@@ -418,24 +420,7 @@
         // Initial Load
         renderVideos(videoData);
 
-        // Automatic In-App Interstitial Ad
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                if (typeof show_11763247 === 'function') {
-                    show_11763247({
-                        type: 'inApp',
-                        inAppSettings: {
-                            frequency: 2,
-                            capping: 0.1,
-                            interval: 30,
-                            timeout: 5,
-                            everyPage: false
-                        }
-                    });
-                }
-            }, 1000);
-        });
-
+        // Monetag Ads
         function watchInterstitialAd() {
             if (typeof show_11763247 === 'function') {
                 show_11763247().then(() => {
@@ -466,4 +451,3 @@
     </script>
 </body>
 </html>
-
