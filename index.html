@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MiniGame / Watch & Earn</title>
+    <title>VideoAds 🍿🎬</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
@@ -17,29 +17,34 @@
             padding: 0;
         }
         body {
-            background-color: #0c0f12;
+            background-color: #0d1117;
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding-bottom: 70px;
+            padding-bottom: 75px;
         }
 
-        /* Header Bar */
+        /* Top Header */
         .header-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
+            padding: 14px 16px;
             background: #161b22;
-            border-bottom: 1px solid #2d3748;
+            border-bottom: 1px solid #30363d;
+        }
+        .header-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #f0f6fc;
         }
         .points-badge {
-            background: #1f2937;
+            background: #21262d;
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 13px;
             font-weight: bold;
-            color: #facc15;
-            border: 1px solid #374151;
+            color: #e3b341;
+            border: 1px solid #30363d;
         }
 
         /* Tab Contents */
@@ -51,15 +56,15 @@
             display: block;
         }
 
-        /* Search Bar & Video Elements */
+        /* Search Bar & Player */
         .search-box {
-            background: #1a202c;
+            background: #161b22;
             border-radius: 12px;
-            padding: 8px 12px;
+            padding: 8px 14px;
             display: flex;
             align-items: center;
-            border: 1px solid #2d3748;
-            margin-bottom: 12px;
+            border: 1px solid #30363d;
+            margin-bottom: 14px;
         }
         .search-box input {
             background: transparent;
@@ -73,14 +78,14 @@
             background: #161b22;
             border-radius: 16px;
             padding: 12px;
-            border: 1px solid #2d3748;
-            margin-bottom: 12px;
+            border: 1px solid #30363d;
+            margin-bottom: 14px;
         }
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
             background: #000;
         }
@@ -90,13 +95,16 @@
             border: 0;
         }
         .video-title {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: bold;
             margin-bottom: 8px;
+            color: #58a6ff;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        /* Video List Items */
         .video-item {
             background: #161b22;
             border-radius: 12px;
@@ -104,21 +112,39 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 8px;
-            border: 1px solid #2d3748;
+            margin-bottom: 10px;
+            border: 1px solid #30363d;
             cursor: pointer;
         }
         .video-item img {
-            width: 80px;
-            height: 50px;
-            border-radius: 6px;
+            width: 85px;
+            height: 52px;
+            border-radius: 8px;
             object-fit: cover;
         }
+        .video-item-info {
+            flex: 1;
+            overflow: hidden;
+        }
+        .video-item-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .video-item-sub {
+            font-size: 11px;
+            color: #3fb950;
+            font-weight: bold;
+        }
 
-        /* Action Buttons */
+        /* Buttons & Forms */
         .btn-ad {
             width: 100%;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            background: linear-gradient(135deg, #238636, #2ea043);
             color: white;
             border: none;
             padding: 14px;
@@ -127,48 +153,30 @@
             font-size: 14px;
             margin-bottom: 12px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #1f6feb, #238636);
         }
 
-        /* Wallet Page Styles */
-        .wallet-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        /* Wallet & Withdraw */
+        .wallet-card {
+            background: #161b22;
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid #30363d;
+            margin-bottom: 16px;
             text-align: center;
-            padding: 40px 20px;
         }
-        .wallet-icon-box {
-            font-size: 70px;
-            margin-bottom: 20px;
-        }
-        .wallet-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-        .wallet-sub {
-            font-size: 13px;
-            color: #9ca3af;
-            line-height: 1.5;
-            margin-bottom: 30px;
-            max-width: 300px;
-        }
-        .btn-connect-ton {
+        .input-field {
             width: 100%;
-            max-width: 320px;
-            background: #0088cc;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            padding: 12px;
+            border-radius: 10px;
             color: white;
-            border: none;
-            padding: 14px 20px;
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
+            font-size: 13px;
+            margin-bottom: 10px;
+            outline: none;
         }
 
         /* Bottom Navbar */
@@ -180,7 +188,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border-top: 1px solid #2d3748;
+            border-top: 1px solid #30363d;
             z-index: 1000;
         }
         .nav-tab {
@@ -188,136 +196,97 @@
             flex-direction: column;
             align-items: center;
             font-size: 11px;
-            color: #9ca3af;
+            color: #8b949e;
             background: transparent;
             border: none;
             cursor: pointer;
             flex: 1;
         }
         .nav-tab.active {
-            color: #3b82f6;
+            color: #58a6ff;
         }
         .nav-icon {
             font-size: 20px;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
 
-        /* Custom Ad Modal Overlay (Rewarding Screen like Picture) */
+        /* Custom Ad Overlay */
         .ad-modal {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.92);
             z-index: 9999;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-        .ad-modal.active {
-            display: flex;
-        }
-        .timer-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .ad-card-mock {
-            background: #1f2937;
-            border-radius: 16px;
-            padding: 16px;
-            width: 100%;
-            max-width: 320px;
-            text-align: center;
-            border: 1px solid #374151;
-            margin-bottom: 20px;
-        }
-        .btn-continue {
-            width: 100%;
-            max-width: 320px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            opacity: 0.5;
-            pointer-events: none;
-        }
-        .btn-continue.ready {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .ad-modal.active { display: flex; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Top Header Bar -->
     <div class="header-bar">
-        <span style="font-size: 14px; font-weight: bold;">MiniGame</span>
+        <div class="header-title">VideoAds 🍿🎬</div>
         <div class="points-badge">💰 <span id="points">0</span> Pts</div>
     </div>
 
-    <!-- TAB 1: PLAY (Videos) -->
+    <!-- TAB 1: PLAY (Watch Videos) -->
     <div id="tab-play" class="tab-content active">
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="ကာတွန်းကား ရှာရန်..." oninput="handleSearch()">
         </div>
 
         <div class="main-card">
-            <div class="video-title" id="currentTitle">Oggy and the Cockroaches</div>
+            <div class="video-title" id="currentTitle">Oggy and the Cockroaches - Fun Episode</div>
             <div class="video-container">
-                <iframe id="mainPlayer" src="https://www.youtube.com/embed/328m31U43_U" allowfullscreen></iframe>
+                <iframe id="mainPlayer" src="https://www.youtube-nocookie.com/embed/328m31U43_U" allowfullscreen></iframe>
             </div>
         </div>
 
         <div id="videoContainer"></div>
     </div>
 
-    <!-- TAB 2: EARN (Ads Task) -->
+    <!-- TAB 2: EARN (Watch Ads) -->
     <div id="tab-earn" class="tab-content">
         <h3 style="margin-bottom: 15px;">ကြော်ငြာကြည့်၍ Point စုရန်</h3>
         <button class="btn-ad" onclick="startAdTask()">🎁 Watch Rewarded Ads (+10 Pts)</button>
-        <button class="btn-ad" style="background: linear-gradient(135deg, #ec4899, #db2777);" onclick="startAdTask()">🚀 Direct Monetag Ads (+5 Pts)</button>
+        <button class="btn-ad btn-secondary" onclick="startAdTask()">🚀 Quick Ads (+5 Pts)</button>
     </div>
 
     <!-- TAB 3: FRIENDS -->
-    <div id="tab-friends" class="tab-content" style="text-align: center; padding-top: 50px;">
+    <div id="tab-friends" class="tab-content" style="text-align: center; padding-top: 40px;">
         <h2>👥 Invite Friends</h2>
-        <p style="color: #9ca3af; margin-top: 10px;">မိတ်ဆွေများကို ဖိတ်ခေါ်ပြီး Points များ ထပ်မံရယူပါ။</p>
+        <p style="color: #8b949e; margin-top: 10px;">သူငယ်ချင်းများကို ဖိတ်ခေါ်ပြီး Point ၁၀% ထပ်မံရယူပါ။</p>
     </div>
 
-    <!-- TAB 4: WALLET -->
+    <!-- TAB 4: WALLET & WITHDRAW -->
     <div id="tab-wallet" class="tab-content">
-        <div class="wallet-container">
-            <div class="wallet-icon-box">👛💎</div>
-            <div class="wallet-title">Connect your TON wallet</div>
-            <div class="wallet-sub">Connect your crypto wallet. If you don't have one, create one in your Telegram account</div>
-            
-            <button class="btn-connect-ton" onclick="connectTonWallet()">
-                <span style="display: flex; align-items: center; gap: 8px;">
-                    <span>👛</span>
-                    <span>Connect your TON wallet</span>
-                </span>
-                <span>›</span>
-            </button>
+        <div class="wallet-card">
+            <h3>👛 TON Wallet ချိတ်ဆက်ရန်</h3>
+            <p style="font-size: 12px; color: #8b949e; margin: 10px 0 15px;">သင့် Telegram Wallet သို့မဟုတ် Tonkeeper ကို ချိတ်ဆက်ပါ</p>
+            <button class="btn-ad" style="background: #0088cc;" onclick="connectTonWallet()">Connect TON Wallet</button>
+        </div>
+
+        <div class="wallet-card" style="text-align: left;">
+            <h3 style="margin-bottom: 12px;">💸 ငွေထုတ်ယူရန် (Withdraw)</h3>
+            <p style="font-size: 11px; color: #3fb950; margin-bottom: 10px;">အနည်းဆုံး 1000 Points ရှိပါက ငွေထုတ်နိုင်ပါသည်</p>
+            <input type="number" id="withdrawPoints" class="input-field" placeholder="ထုတ်ယူမည့် Point ပမာဏ">
+            <input type="text" id="walletAddress" class="input-field" placeholder="TON Wallet Address သို့မဟုတ် Phone No">
+            <button class="btn-ad" onclick="processWithdraw()">ငွေထုတ်ယူမည် တောင်းဆိုရန်</button>
         </div>
     </div>
 
-    <!-- Rewarded Ad Modal Screen (Image Exact Match) -->
+    <!-- Rewarded Ad Modal -->
     <div id="adModal" class="ad-modal">
-        <div class="timer-badge">⏳ <span id="adTimer">00:05</span></div>
-        <div class="ad-card-mock">
-            <h4 style="color: #facc15; margin-bottom: 8px;">⚡ 200 FREE SPINS</h4>
-            <p style="font-size: 13px; color: #d1d5db;">ကြော်ငြာကို စက္ကန့်ပြည့်အောင် ကြည့်ရှုပေးပါခင်ဗျာ။</p>
-            <div style="font-size: 10px; color: #9ca3af; margin-top: 15px;">ads by Monetag</div>
+        <div style="background: #161b22; padding: 20px; border-radius: 16px; width: 100%; max-width: 300px; text-align: center; border: 1px solid #30363d;">
+            <h4 style="color: #e3b341; margin-bottom: 10px;">⚡ Rewarded Ad</h4>
+            <p style="font-size: 13px; margin-bottom: 15px;">ကြော်ငြာပြီးဆုံးသည်အထိ စောင့်ဆိုင်းပေးပါခင်ဗျာ...</p>
+            <div style="font-size: 18px; font-weight: bold; margin-bottom: 15px;">⏳ <span id="adTimer">00:05</span></div>
+            <button id="continueBtn" class="btn-ad" style="opacity: 0.5; pointer-events: none;" onclick="finishAdTask()">Continue</button>
         </div>
-        <button id="continueBtn" class="btn-continue" onclick="finishAdTask()">Continue</button>
     </div>
 
     <!-- Bottom Navigation -->
@@ -355,7 +324,7 @@
             try {
                 await tonConnectUI.openModal();
             } catch (e) {
-                alert("TON Wallet ချိတ်ဆက်မှု အဆင်မပြေပါ သို့မဟုတ် မဖွင့်နိုင်ပါ။");
+                alert("Wallet ချိတ်ဆက်ရန် ဖွင့်၍မရသေးပါ။");
             }
         }
 
@@ -367,9 +336,8 @@
             el.classList.add('active');
         }
 
-        // Ad Rewarded Flow like Image
+        // Ad Task Logic
         function startAdTask() {
-            // Trigger Monetag Ad SDK First
             if (typeof show_11763247 === 'function') {
                 show_11763247().catch(() => {});
             }
@@ -379,7 +347,8 @@
             const btn = document.getElementById('continueBtn');
             
             modal.classList.add('active');
-            btn.classList.remove('ready');
+            btn.style.opacity = "0.5";
+            btn.style.pointerEvents = "none";
             
             let timeLeft = 5;
             timerEl.innerText = `00:0${timeLeft}`;
@@ -390,7 +359,8 @@
                 
                 if (timeLeft <= 0) {
                     clearInterval(countdownTimer);
-                    btn.classList.add('ready');
+                    btn.style.opacity = "1";
+                    btn.style.pointerEvents = "auto";
                 }
             }, 1000);
         }
@@ -399,14 +369,15 @@
             document.getElementById('adModal').classList.remove('active');
             points += 10;
             document.getElementById('points').innerText = points;
-            alert("ကြော်ငြာကြည့်ရှုခြင်း အောင်မြင်ပါသည်။ +10 Points ရရှိပါသည်။");
+            alert("ကြော်ငြာကြည့်ရှုမှု အောင်မြင်ပါသည်။ +10 Points ရရှိပါသည်။");
         }
 
+        // Verified Embed Videos
         const videoData = [
             { id: "328m31U43_U", title: "Mr Bean Animated Series - Classic Clips" },
             { id: "M0X8fP_P2Y4", title: "Oggy and the Cockroaches - Jack's Resort" },
             { id: "8-63S2C6s68", title: "Larva Season - Funny Moments" },
-            { id: "t06RUxPew_c", title: "Tom & Jerry - Classic Special" }
+            { id: "t06RUxPew_c", title: "Tom & Jerry - Classic Chase" }
         ];
 
         function renderVideos(items) {
@@ -417,14 +388,17 @@
                 container.innerHTML += `
                     <div class="video-item" onclick="playVideo('${item.id}', '${item.title}')">
                         <img src="${thumbUrl}">
-                        <div class="video-item-title">${item.title}</div>
+                        <div class="video-item-info">
+                            <div class="video-item-title">${item.title}</div>
+                            <div class="video-item-sub">🎁 +5 Points ကြည့်ရှုခ</div>
+                        </div>
                     </div>
                 `;
             });
         }
 
         function playVideo(id, title) {
-            document.getElementById('mainPlayer').src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+            document.getElementById('mainPlayer').src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
             document.getElementById('currentTitle').innerText = title;
             points += 5;
             document.getElementById('points').innerText = points;
@@ -434,6 +408,30 @@
             const query = document.getElementById('searchInput').value.toLowerCase();
             const filtered = videoData.filter(i => i.title.toLowerCase().includes(query));
             renderVideos(filtered);
+        }
+
+        function processWithdraw() {
+            const pts = parseInt(document.getElementById('withdrawPoints').value);
+            const wallet = document.getElementById('walletAddress').value;
+
+            if (!pts || !wallet) {
+                alert("ကျေးဇူးပြု၍ Point ပမာဏနှင့် Wallet Address ဖြည့်စွက်ပါ။");
+                return;
+            }
+
+            if (pts > points) {
+                alert("သင့်တွင် Point မလုံလောက်ပါ။");
+                return;
+            }
+
+            if (pts < 1000) {
+                alert("အနည်းဆုံး 1000 Points ရှိမှ ငွေထုတ်နိုင်ပါမည်။");
+                return;
+            }
+
+            points -= pts;
+            document.getElementById('points').innerText = points;
+            alert("ငွေထုတ်ယူမှု တောင်းဆိုပြီးပါပြီ။ ၂၄ နာရီအတွင်း စစ်ဆေးဆောင်ရွက်ပေးပါမည်။");
         }
 
         renderVideos(videoData);
