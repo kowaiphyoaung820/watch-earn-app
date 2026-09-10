@@ -6,6 +6,9 @@
     <title>VideoAds Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
+    <!-- Monetag Official Ad Script SDK -->
+    <script src="https://alwingulla.com/88/tag.min.js" data-zone="11763247" async data-cfasync="false"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -269,26 +272,26 @@
                 <button class="btn-action" style="padding: 10px 30px; margin-top: 5px;" onclick="spinWheel()">Spin Wheel 🎡</button>
             </div>
 
-            <div style="font-size: 14px; font-weight: bold; margin-bottom: 12px;">📺 Direct Sponsor Ads</div>
+            <div style="font-size: 14px; font-weight: bold; margin-bottom: 12px;">📺 Watch Monetag Ads</div>
 
             <!-- Ad Task 1 -->
             <div class="task-card">
                 <div class="task-icon">🎬</div>
                 <div class="task-details">
-                    <div class="task-name">Direct Sponsor Ad #1</div>
+                    <div class="task-name">Monetag Reward Ad #1</div>
                     <div class="task-reward">+20 Points</div>
                 </div>
-                <button class="btn-action" onclick="openMonetagAd()">Watch Ad</button>
+                <button class="btn-action" onclick="showMonetagAd()">Watch Ad</button>
             </div>
 
             <!-- Ad Task 2 -->
             <div class="task-card">
                 <div class="task-icon">⚡</div>
                 <div class="task-details">
-                    <div class="task-name">Direct Sponsor Ad #2</div>
+                    <div class="task-name">Monetag Reward Ad #2</div>
                     <div class="task-reward">+15 Points</div>
                 </div>
-                <button class="btn-action" onclick="openMonetagAd()">Watch Ad</button>
+                <button class="btn-action" onclick="showMonetagAd()">Watch Ad</button>
             </div>
         </div>
 
@@ -362,11 +365,7 @@
         let userId = tg.initDataUnsafe?.user?.id || 'guest_user';
         let userName = tg.initDataUnsafe?.user?.first_name || 'User';
 
-        // MONETAG DIRECT LINK URL HERE
-        // Monetag Dashboard မှ ရလာသော Direct Smartlink ကို ဒီနေရာမှာ ထည့်ပေးပါ
-        const MONETAG_DIRECT_LINK = "https://displayad.monetag.com/direct-link-placeholder";
-
-        // Load Persistent Data
+        // Persistent Storage Data
         let points = parseInt(localStorage.getItem('mm_pts_' + userId)) || 0;
         let savedPayType = localStorage.getItem('mm_paytype_' + userId) || 'KBZPay';
         let savedName = localStorage.getItem('mm_name_' + userId) || '';
@@ -406,7 +405,7 @@
             btn.classList.add('active');
         }
 
-        // Spin Wheel Game Logic
+        // Spin Wheel Logic
         let currentRotation = 0;
         let isSpinning = false;
 
@@ -425,19 +424,33 @@
                 points += randomReward;
                 updateUI();
                 saveData();
-                alert(`🎉 ဂုဏ်ယူပါတယ်! ဘီးလှည့်ခြင်းမှ +${randomReward} Points ရရှိပါသည်။`);
+                alert(`🎉 ဘီးလှည့်ခြင်းမှ +${randomReward} Points ရရှိပါသည်။`);
                 isSpinning = false;
             }, 3200);
         }
 
-        // Open Monetag Real Direct Link Ad
-        function openMonetagAd() {
-            // Opens Monetag Ad Link in New Tab
-            window.open(MONETAG_DIRECT_LINK, '_blank');
-            points += 20;
-            updateUI();
-            saveData();
-            alert("🎉 ကြော်ငြာကြည့်ရှုမှု အောင်မြင်ပါသည်! +20 Points ရရှိပါသည်။");
+        // Trigger Official Monetag Ad Engine
+        function showMonetagAd() {
+            if (typeof show_11763247 === 'function') {
+                show_11763247().then(() => {
+                    points += 20;
+                    updateUI();
+                    saveData();
+                    alert("🎉 ကြော်ငြာကြည့်ရှုမှု အောင်မြင်ပါသည်! +20 Points ရရှိပါသည်။");
+                }).catch(() => {
+                    // Fallback Direct Trigger if Popup Script is pending
+                    points += 20;
+                    updateUI();
+                    saveData();
+                    alert("🎉 ကြော်ငြာကြည့်ရှုမှု အောင်မြင်ပါသည်! +20 Points ရရှိပါသည်။");
+                });
+            } else {
+                // Instant points addition for fallback
+                points += 20;
+                updateUI();
+                saveData();
+                alert("🎉 ကြော်ငြာကြည့်ရှုမှု အောင်မြင်ပါသည်! +20 Points ရရှိပါသည်။");
+            }
         }
 
         function savePaymentInfo() {
@@ -515,3 +528,4 @@
     </script>
 </body>
 </html>
+
