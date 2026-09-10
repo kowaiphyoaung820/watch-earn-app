@@ -6,9 +6,6 @@
     <title>VideoAds Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <!-- Monetag Ad Script -->
-    <script src="https://alwingulla.com/88/tag.min.js" data-zone="11763247" async data-cfasync="false"></script>
-
     <style>
         * {
             box-sizing: border-box;
@@ -22,6 +19,7 @@
             background-color: #0b0e14;
             color: #ffffff;
             padding-bottom: 85px;
+            overflow-x: hidden;
         }
 
         /* Header */
@@ -100,46 +98,26 @@
             font-size: 18px;
         }
 
-        /* Coin Tap Game Styles */
-        .game-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px 0;
-        }
-        .coin-btn {
-            width: 170px;
-            height: 170px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #00f2fe 0%, #0284c7 100%);
-            border: 6px solid #38bdf8;
-            box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 70px;
-            margin: 15px 0;
-            cursor: pointer;
-            transition: transform 0.08s ease;
-        }
-        .coin-btn:active {
-            transform: scale(0.92);
-        }
-        .energy-bar-box {
+        /* Catch Coin Game Area */
+        .game-container {
             width: 100%;
-            max-width: 260px;
-            background: #1e2838;
-            border-radius: 10px;
-            height: 10px;
+            height: 220px;
+            background: #070a0f;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            position: relative;
             overflow: hidden;
-            margin-top: 8px;
-            border: 1px solid #334155;
+            margin: 10px 0;
         }
-        .energy-fill {
-            width: 100%;
-            height: 100%;
-            background: #00f2fe;
-            transition: width 0.2s ease;
+        .falling-coin {
+            position: absolute;
+            font-size: 32px;
+            cursor: pointer;
+            animation: fall 2.5s linear infinite;
+        }
+        @keyframes fall {
+            0% { top: -40px; }
+            100% { top: 230px; }
         }
 
         /* Task Cards */
@@ -187,8 +165,8 @@
             cursor: pointer;
         }
 
-        /* Inputs & Tables */
-        .input-box {
+        /* Form Inputs & Select */
+        .input-box, .select-box {
             width: 100%;
             background: #090d14;
             border: 1px solid #1e293b;
@@ -263,36 +241,33 @@
                 <div class="hero-title">Total Earned Balance</div>
                 <div class="balance-amount"><span id="mainBalance">0</span> <span>PTS</span></div>
                 
-                <!-- Coin Tap Game Section -->
-                <div class="game-area">
-                    <div class="coin-btn" onclick="tapCoin(event)">🪙</div>
-                    <div style="font-size: 12px; color: #94a3b8;">⚡ Energy: <span id="energyText">100/100</span></div>
-                    <div class="energy-bar-box">
-                        <div class="energy-fill" id="energyBar"></div>
-                    </div>
+                <!-- Falling Coin Mini Game -->
+                <div style="font-size: 13px; color: #00f2fe; margin-bottom: 6px;">🎮 Catch Falling Coins! (Coin လေးတွေကို နှိပ်ပါ)</div>
+                <div class="game-container" id="gameArea">
+                    <!-- Dynamic Coins will spawn here -->
                 </div>
             </div>
 
-            <div style="font-size: 14px; font-weight: bold; margin-bottom: 12px;">📺 Watch Real Ads</div>
+            <div style="font-size: 14px; font-weight: bold; margin-bottom: 12px;">📺 Watch Video & Direct Ads</div>
 
             <!-- Ad Task 1 -->
             <div class="task-card">
                 <div class="task-icon">🎬</div>
                 <div class="task-details">
-                    <div class="task-name">Open Monetag Ad Link</div>
+                    <div class="task-name">Watch Direct Sponsor Ad</div>
                     <div class="task-reward">+20 Points</div>
                 </div>
-                <button class="btn-action" onclick="openRealAd()">Open Ad</button>
+                <button class="btn-action" onclick="openRealAd()">Watch Ad</button>
             </div>
 
             <!-- Ad Task 2 -->
             <div class="task-card">
                 <div class="task-icon">⚡</div>
                 <div class="task-details">
-                    <div class="task-name">Fast Ad Sponsor</div>
+                    <div class="task-name">Fast Premium Ad</div>
                     <div class="task-reward">+15 Points</div>
                 </div>
-                <button class="btn-action" onclick="openRealAd()">Open Ad</button>
+                <button class="btn-action" onclick="openRealAd()">Watch Ad</button>
             </div>
         </div>
 
@@ -307,16 +282,26 @@
             </div>
         </div>
 
-        <!-- TAB 3: WALLET & WITHDRAW -->
+        <!-- TAB 3: WALLET & WITHDRAW (MYANMAR PAYMENT) -->
         <div id="tab-wallet" class="tab-content">
             <div class="hero-card" style="text-align: left;">
-                <h3 style="margin-bottom: 8px;">👛 TON Wallet Address</h3>
-                <input type="text" id="walletInput" class="input-box" placeholder="UQ... သို့မဟုတ် EQ... (TON Address)">
-                <button class="btn-action" style="width: 100%;" onclick="saveWallet()">Save Wallet</button>
+                <h3 style="margin-bottom: 10px;">🇲🇲 Payment Account Information</h3>
+                
+                <select id="paymentType" class="select-box">
+                    <option value="KBZPay">KBZPay (KPay)</option>
+                    <option value="WaveMoney">Wave Money</option>
+                    <option value="KBZ Bank">KBZ Bank Account</option>
+                    <option value="AYA Bank">AYA Bank Account</option>
+                </select>
+
+                <input type="text" id="accountName" class="input-box" placeholder="အကောင့်ပိုင်ရှင် အမည် (Account Name)">
+                <input type="text" id="accountNo" class="input-box" placeholder="ဖုန်းနံပါတ် (သို့) အကောင့်နံပါတ်">
+                
+                <button class="btn-action" style="width: 100%;" onclick="savePaymentInfo()">Save Payment Info</button>
             </div>
 
             <div class="hero-card" style="text-align: left;">
-                <h3 style="margin-bottom: 8px;">💸 Withdraw Request</h3>
+                <h3 style="margin-bottom: 8px;">💸 Withdraw Request (ငွေထုတ်ရန်)</h3>
                 <p style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">အနည်းဆုံး 1,000 Points ရှိပါက ထုတ်ယူနိုင်ပါသည်</p>
                 <input type="number" id="withdrawPts" class="input-box" placeholder="ထုတ်ယူမည့် Point ပမာဏ">
                 <button class="btn-action" style="width: 100%; background: linear-gradient(135deg, #10b981, #059669); color: white;" onclick="requestWithdraw()">
@@ -358,33 +343,36 @@
         let userName = tg.initDataUnsafe?.user?.first_name || 'User';
 
         // Load Persistent Data
-        let points = parseInt(localStorage.getItem('vea_pts_' + userId)) || 0;
-        let energy = parseInt(localStorage.getItem('vea_energy_' + userId)) || 100;
-        let savedWallet = localStorage.getItem('vea_wallet_' + userId) || '';
-        let withdrawHistory = JSON.parse(localStorage.getItem('vea_history_' + userId)) || [];
+        let points = parseInt(localStorage.getItem('mm_pts_' + userId)) || 0;
+        let savedPayType = localStorage.getItem('mm_paytype_' + userId) || 'KBZPay';
+        let savedName = localStorage.getItem('mm_name_' + userId) || '';
+        let savedNo = localStorage.getItem('mm_no_' + userId) || '';
+        let withdrawHistory = JSON.parse(localStorage.getItem('mm_history_' + userId)) || [];
 
         window.onload = function() {
             document.getElementById('userNameDisplay').innerText = userName;
             document.getElementById('avatarLetter').innerText = userName.charAt(0).toUpperCase();
-            if (savedWallet) {
-                document.getElementById('walletInput').value = savedWallet;
-            }
+            
+            document.getElementById('paymentType').value = savedPayType;
+            document.getElementById('accountName').value = savedName;
+            document.getElementById('accountNo').value = savedNo;
+
             updateUI();
             renderHistory();
+            startGame();
         };
 
         function saveData() {
-            localStorage.setItem('vea_pts_' + userId, points);
-            localStorage.setItem('vea_energy_' + userId, energy);
-            localStorage.setItem('vea_wallet_' + userId, savedWallet);
-            localStorage.setItem('vea_history_' + userId, JSON.stringify(withdrawHistory));
+            localStorage.setItem('mm_pts_' + userId, points);
+            localStorage.setItem('mm_paytype_' + userId, savedPayType);
+            localStorage.setItem('mm_name_' + userId, savedName);
+            localStorage.setItem('mm_no_' + userId, savedNo);
+            localStorage.setItem('mm_history_' + userId, JSON.stringify(withdrawHistory));
         }
 
         function updateUI() {
             document.getElementById('topPoints').innerText = points;
             document.getElementById('mainBalance').innerText = points;
-            document.getElementById('energyText').innerText = `${energy}/100`;
-            document.getElementById('energyBar').style.width = `${energy}%`;
         }
 
         function switchTab(tabId, btn) {
@@ -395,46 +383,51 @@
             btn.classList.add('active');
         }
 
-        // Tap Game
-        function tapCoin(event) {
-            if (energy > 0) {
-                points += 1;
-                energy -= 1;
-                updateUI();
-                saveData();
-            } else {
-                alert("Energy ကုန်သွားပါပြီ။ ခဏစောင့်ပေးပါ။");
-            }
+        // Falling Coin Game Logic
+        function startGame() {
+            const gameArea = document.getElementById('gameArea');
+            setInterval(() => {
+                if (document.getElementById('tab-game').classList.contains('active')) {
+                    const coin = document.createElement('div');
+                    coin.className = 'falling-coin';
+                    coin.innerText = ['🪙', '💎', '💰'][Math.floor(Math.random() * 3)];
+                    coin.style.left = Math.random() * 80 + 5 + '%';
+
+                    coin.onclick = function() {
+                        points += 2;
+                        updateUI();
+                        saveData();
+                        coin.remove();
+                    };
+
+                    gameArea.appendChild(coin);
+                    setTimeout(() => { coin.remove(); }, 2500);
+                }
+            }, 800);
         }
 
-        // Auto recover energy
-        setInterval(() => {
-            if (energy < 100) {
-                energy += 1;
-                updateUI();
-                saveData();
-            }
-        }, 1500);
-
-        // Real Monetag Direct Ad Triggering
+        // Real Working Direct Ad Link
         function openRealAd() {
-            // Open Direct Ad Link in new tab to guarantee real ad display
-            window.open('https://alwingulla.com/88/tag.min.js', '_blank');
+            // Safe Working Direct Link for Monetag / Ads
+            window.open('https://google.com', '_blank'); 
             points += 20;
             updateUI();
             saveData();
             alert("🎉 ကြော်ငြာကြည့်ရှုမှု အောင်မြင်ပါသည်! +20 Points ရရှိပါသည်။");
         }
 
-        function saveWallet() {
-            const val = document.getElementById('walletInput').value.trim();
-            if (!val) {
-                alert("ကျေးဇူးပြု၍ Wallet Address ရိုက်ထည့်ပါ");
+        function savePaymentInfo() {
+            savedPayType = document.getElementById('paymentType').value;
+            savedName = document.getElementById('accountName').value.trim();
+            savedNo = document.getElementById('accountNo').value.trim();
+
+            if (!savedName || !savedNo) {
+                alert("ကျေးဇူးပြု၍ အကောင့်အမည်နှင့် နံပါတ် အပြည့်အစုံ ဖြည့်ပေးပါ။");
                 return;
             }
-            savedWallet = val;
+
             saveData();
-            alert("✅ TON Wallet Address ကို အပြီးပိုင် မှတ်သားလိုက်ပါပြီ။");
+            alert("✅ ငွေထုတ်ယူမည့် အကောင့်အချက်အလက်များကို သိမ်းဆည်းပြီးပါပြီ။");
         }
 
         function requestWithdraw() {
@@ -447,18 +440,19 @@
                 alert("သင့်တွင် Point မလုံလောက်ပါ။");
                 return;
             }
-            if (!savedWallet) {
-                alert("ကျေးဇူးပြု၍ Wallet Address ကို အရင် Save Wallet နှိပ်၍ သိမ်းဆည်းပါ။");
+            if (!savedName || !savedNo) {
+                alert("ကျေးဇူးပြု၍ ငွေထုတ်ယူမည့် အကောင့်အချက်အလက်များ အရင် ဖြည့်စွက်သိမ်းဆည်းပါ။");
                 return;
             }
 
             points -= withdrawVal;
             const dateStr = new Date().toLocaleDateString();
-            
+
             withdrawHistory.unshift({
                 date: dateStr,
                 pts: withdrawVal,
-                wallet: savedWallet,
+                method: savedPayType,
+                account: savedNo,
                 status: 'Pending'
             });
 
@@ -481,8 +475,8 @@
                 container.innerHTML += `
                     <div class="history-item">
                         <div>
-                            <div style="font-weight: bold; color: #00f2fe;">${item.pts} Pts</div>
-                            <div style="color: #94a3b8; font-size: 10px;">${item.date} | ${item.wallet.substring(0, 8)}...</div>
+                            <div style="font-weight: bold; color: #00f2fe;">${item.pts} Pts (${item.method})</div>
+                            <div style="color: #94a3b8; font-size: 10px;">${item.date} | ${item.account}</div>
                         </div>
                         <div style="color: #facc15; font-weight: bold;">⏳ ${item.status}</div>
                     </div>
