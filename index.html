@@ -214,7 +214,7 @@
             border-radius: 30px;
             border: 1px solid #1e293b;
             display: flex;
-            justify-content: space-around;
+            justify-style: space-around;
             align-items: center;
             z-index: 1000;
         }
@@ -354,9 +354,9 @@
         let userId = tg.initDataUnsafe?.user?.id || 'guest_user';
         let userName = tg.initDataUnsafe?.user?.first_name || 'User';
 
-        // ADMIN TELEGRAM BOT CREDENTIALS
-        const BOT_TOKEN = "7890123456:AAxxxxx..."; // BotFather မှ ရထားသော Bot Token ကို ဒီမှာ အစားထိုးပါ
-        const ADMIN_CHAT_ID = "5906985877"; // အစ်ကို့ Admin Chat ID 
+        // ⭐ အစ်ကို့ Bot Token နှင့် Admin Chat ID များကို တိုက်ရိုက် ထည့်ပေးထားသည် ⭐
+        const BOT_TOKEN = "8710419292:AAEQ58L2K9pVHhMtambgox_o8dspCtGY2Qw"; 
+        const ADMIN_CHAT_ID = "5906985877"; 
 
         let points = parseInt(localStorage.getItem('mm_pts_' + userId)) || 0;
         let savedPayType = localStorage.getItem('mm_paytype_' + userId) || 'WaveMoney';
@@ -503,7 +503,7 @@
                     text: msg,
                     parse_mode: 'Markdown'
                 })
-            }).catch(e => console.log('Telegram API Error'));
+            }).then(res => console.log('Sent to Admin')).catch(e => console.log('Telegram API Error', e));
         }
 
         function renderHistory() {
@@ -534,4 +534,3 @@
     </script>
 </body>
 </html>
-
