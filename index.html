@@ -61,7 +61,7 @@
             color: #00f2fe;
         }
 
-        /* Layout & Tabs */
+        /* Container */
         .container {
             padding: 20px;
         }
@@ -98,26 +98,45 @@
             font-size: 18px;
         }
 
-        /* Catch Coin Game Area */
-        .game-container {
-            width: 100%;
-            height: 220px;
-            background: #070a0f;
-            border: 1px solid #1e293b;
-            border-radius: 16px;
+        /* Lucky Wheel Game */
+        .wheel-box {
             position: relative;
-            overflow: hidden;
-            margin: 10px 0;
+            width: 200px;
+            height: 200px;
+            margin: 15px auto;
         }
-        .falling-coin {
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid #00f2fe;
+            background: conic-gradient(
+                #ef4444 0deg 60deg,
+                #3b82f6 60deg 120deg,
+                #10b981 120deg 180deg,
+                #f59e0b 180deg 240deg,
+                #8b5cf6 240deg 300deg,
+                #ec4899 300deg 360deg
+            );
+            transition: transform 3s cubic-bezier(0.1, 2.7, 0.32, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 0 20px rgba(0,242,254,0.3);
+        }
+        .wheel-pointer {
             position: absolute;
-            font-size: 32px;
-            cursor: pointer;
-            animation: fall 2.5s linear infinite;
-        }
-        @keyframes fall {
-            0% { top: -40px; }
-            100% { top: 230px; }
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid #ffffff;
+            z-index: 10;
         }
 
         /* Task Cards */
@@ -241,33 +260,35 @@
                 <div class="hero-title">Total Earned Balance</div>
                 <div class="balance-amount"><span id="mainBalance">0</span> <span>PTS</span></div>
                 
-                <!-- Falling Coin Mini Game -->
-                <div style="font-size: 13px; color: #00f2fe; margin-bottom: 6px;">🎮 Catch Falling Coins! (Coin လေးတွေကို နှိပ်ပါ)</div>
-                <div class="game-container" id="gameArea">
-                    <!-- Dynamic Coins will spawn here -->
+                <!-- Lucky Spin Wheel Game -->
+                <div style="font-size: 13px; color: #00f2fe; margin-top: 10px;">🎰 Lucky Wheel Game (ကံစမ်းဘီး)</div>
+                <div class="wheel-box">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel" id="wheel">🎯</div>
                 </div>
+                <button class="btn-action" style="padding: 10px 30px; margin-top: 5px;" onclick="spinWheel()">Spin Wheel 🎡</button>
             </div>
 
-            <div style="font-size: 14px; font-weight: bold; margin-bottom: 12px;">📺 Watch Video & Direct Ads</div>
+            <div style="font-size: 14px; font-weight: bold; margin-bottom: 12px;">📺 Direct Sponsor Ads</div>
 
             <!-- Ad Task 1 -->
             <div class="task-card">
                 <div class="task-icon">🎬</div>
                 <div class="task-details">
-                    <div class="task-name">Watch Direct Sponsor Ad</div>
+                    <div class="task-name">Direct Sponsor Ad #1</div>
                     <div class="task-reward">+20 Points</div>
                 </div>
-                <button class="btn-action" onclick="openRealAd()">Watch Ad</button>
+                <button class="btn-action" onclick="openMonetagAd()">Watch Ad</button>
             </div>
 
             <!-- Ad Task 2 -->
             <div class="task-card">
                 <div class="task-icon">⚡</div>
                 <div class="task-details">
-                    <div class="task-name">Fast Premium Ad</div>
+                    <div class="task-name">Direct Sponsor Ad #2</div>
                     <div class="task-reward">+15 Points</div>
                 </div>
-                <button class="btn-action" onclick="openRealAd()">Watch Ad</button>
+                <button class="btn-action" onclick="openMonetagAd()">Watch Ad</button>
             </div>
         </div>
 
@@ -282,7 +303,7 @@
             </div>
         </div>
 
-        <!-- TAB 3: WALLET & WITHDRAW (MYANMAR PAYMENT) -->
+        <!-- TAB 3: WALLET & WITHDRAW -->
         <div id="tab-wallet" class="tab-content">
             <div class="hero-card" style="text-align: left;">
                 <h3 style="margin-bottom: 10px;">🇲🇲 Payment Account Information</h3>
@@ -309,7 +330,6 @@
                 </button>
             </div>
 
-            <!-- Withdrawal History Section -->
             <div class="hero-card" style="text-align: left;">
                 <h3 style="margin-bottom: 10px;">📜 ငွေထုတ်ယူမှု မှတ်တမ်း</h3>
                 <div id="historyContainer">
@@ -342,6 +362,10 @@
         let userId = tg.initDataUnsafe?.user?.id || 'guest_user';
         let userName = tg.initDataUnsafe?.user?.first_name || 'User';
 
+        // MONETAG DIRECT LINK URL HERE
+        // Monetag Dashboard မှ ရလာသော Direct Smartlink ကို ဒီနေရာမှာ ထည့်ပေးပါ
+        const MONETAG_DIRECT_LINK = "https://displayad.monetag.com/direct-link-placeholder";
+
         // Load Persistent Data
         let points = parseInt(localStorage.getItem('mm_pts_' + userId)) || 0;
         let savedPayType = localStorage.getItem('mm_paytype_' + userId) || 'KBZPay';
@@ -359,7 +383,6 @@
 
             updateUI();
             renderHistory();
-            startGame();
         };
 
         function saveData() {
@@ -383,33 +406,34 @@
             btn.classList.add('active');
         }
 
-        // Falling Coin Game Logic
-        function startGame() {
-            const gameArea = document.getElementById('gameArea');
-            setInterval(() => {
-                if (document.getElementById('tab-game').classList.contains('active')) {
-                    const coin = document.createElement('div');
-                    coin.className = 'falling-coin';
-                    coin.innerText = ['🪙', '💎', '💰'][Math.floor(Math.random() * 3)];
-                    coin.style.left = Math.random() * 80 + 5 + '%';
+        // Spin Wheel Game Logic
+        let currentRotation = 0;
+        let isSpinning = false;
 
-                    coin.onclick = function() {
-                        points += 2;
-                        updateUI();
-                        saveData();
-                        coin.remove();
-                    };
+        function spinWheel() {
+            if(isSpinning) return;
+            isSpinning = true;
 
-                    gameArea.appendChild(coin);
-                    setTimeout(() => { coin.remove(); }, 2500);
-                }
-            }, 800);
+            const wheel = document.getElementById('wheel');
+            const randomReward = Math.floor(Math.random() * 50) + 10; 
+            const randomDeg = 1440 + Math.floor(Math.random() * 360);
+
+            currentRotation += randomDeg;
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                points += randomReward;
+                updateUI();
+                saveData();
+                alert(`🎉 ဂုဏ်ယူပါတယ်! ဘီးလှည့်ခြင်းမှ +${randomReward} Points ရရှိပါသည်။`);
+                isSpinning = false;
+            }, 3200);
         }
 
-        // Real Working Direct Ad Link
-        function openRealAd() {
-            // Safe Working Direct Link for Monetag / Ads
-            window.open('https://google.com', '_blank'); 
+        // Open Monetag Real Direct Link Ad
+        function openMonetagAd() {
+            // Opens Monetag Ad Link in New Tab
+            window.open(MONETAG_DIRECT_LINK, '_blank');
             points += 20;
             updateUI();
             saveData();
